@@ -6,7 +6,6 @@ lemmatizer = WordNetLemmatizer()
 import pickle
 import numpy as np
 import pymongo
-from config import mongo_conn
 
 from tensorflow.keras.models import load_model
 model = load_model('chatbot_model.h5')
@@ -17,7 +16,7 @@ words = pickle.load(open('words.pkl','rb'))
 classes = pickle.load(open('classes.pkl','rb'))
 
 # connecting with MongoDB
-conn = mongo_conn
+conn = 'mongodb+srv://TeamCatViz:RockingTeam#1@cluster0.ddihz.mongodb.net/petfinder_db?retryWrites=true&w=majority'
 client = pymongo.MongoClient(conn)
 
 def clean_up_sentence(sentence):
