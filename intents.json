@@ -1,0 +1,88 @@
+{"intents": [
+        {"tag": "greeting",
+         "patterns": ["Hi there", "How are you", "Is anyone there?","Hey","Hola", "Hello", "Good day"],
+         "responses": ["Hello, thanks for asking", "Good to see you again", "Hi there, how can I help?"],
+         "context": [""]
+        },
+        {"tag": "goodbye",
+         "patterns": ["Bye", "See you later", "Goodbye", "Nice chatting to you, bye", "Till next time"],
+         "responses": ["See you!", "Have a nice day", "Bye! Come back again soon."],
+         "context": [""]
+        },
+        {"tag": "thanks",
+         "patterns": ["Thanks", "Thank you", "That's helpful", "Awesome, thanks", "Thanks for helping me"],
+         "responses": ["Happy to help!", "Any time!", "My pleasure"],
+         "context": [""]
+        },
+        {"tag": "noanswer",
+         "patterns": [],
+         "responses": ["Sorry, can't understand you", "Please give me more info", "Not sure I understand"],
+         "context": [""]
+        },
+        {"tag": "options",
+         "patterns": ["What pet types do you have?", "What you can do?", "What help you provide?", "How you can be helpful?", "What support is offered?"],
+         "responses": ["Browsing pets by type, breed or color with links", "providing links to petfinder website"],
+         "context": [""]
+        },
+        {"tag": "type_search",
+         "patterns": ["I want to search for a pet", "type of animal", "get me a pet", "show me all pets", "find pet by type", "what type do you have" ],
+         "responses": ["Please provide type of the pet, e.g. Dog, Cat, Bird etc", "Pet Type?", "Dog, Cat, Bird, Barnyard, Horse, Rabbit, SmallFurry"],
+         "context": [""]
+        },
+        {"tag": "search_dog",
+         "patterns": ["get me Dog", "I want a Dog", "list of Dogs", "looking for a dog", "searching for a dog", "best avaialbe dog"],
+         "responses": ["Dog"],
+         "context": [""]
+        },
+        {"tag": "search_cat",
+         "patterns": ["get me Cat", "I want a Cat", "list of Cat", "looking for a Cat", "searching for a Cat", "best avaialbe Cat"],
+         "responses": ["Cat"],
+         "context": [""]
+        },
+        {"tag": "search_bird",
+         "patterns": ["get me bird", "I want a bird", "list of bird", "looking for a bird", "searching for a bird", "best avaialbe bird"],
+         "responses": ["Bird"],
+         "context": [""]
+        },
+        {"tag": "search_horse",
+         "patterns": ["get me Horse", "I want a Horse", "list of Horse", "looking for a Horse", "searching for a Horse", "best avaialbe Horse"],
+         "responses": ["Horse"],
+         "context": [""]
+        },
+        {"tag": "search_rabbit",
+         "patterns": ["get me Rabbit", "I want a Rabbit", "list of Rabbit", "looking for a Rabbit", "searching for a Rabbit", "best avaialbe Rabbit"],
+         "responses": ["Rabbit"],
+         "context": [""]
+        },
+        {"tag": "search_barnyard",
+         "patterns": ["get me Barnyard", "I want a Barnyard", "list of Barnyard", "looking for a Barnyard", "searching for a Barnyard", "best avaialbe Barnyard"],
+         "responses": ["Barnyard"],
+         "context": [""]
+        },
+        {"tag": "search_smallfurry",
+         "patterns": ["get me SmallFurry", "I want a SmallFurry", "list of SmallFurry", "looking for a SmallFurry", "searching for a SmallFurry", "best avaialbe SmallFurry"],
+         "responses": ["SmallFurry"],
+         "context": [""]
+        },
+        {"tag": "search_dog_Hound",
+         "patterns": ["get me Hound dog","i want a Hound dog", "i love Hound dog", "do you have a Hound dog"],
+         "responses": ["Hound"],
+         "context": [""]
+        },
+        {"tag": "search_dog_Shepherd",
+         "patterns": ["get me Shepherd dog","i want a Shepherd dog", "i love Shepherd dog", "do you have a Shepherd dog"],
+         "responses": ["Shepherd"],
+         "context": [""]
+        },
+        {"tag": "search_cat_Tabby",
+         "patterns": ["get me Tabby cat","i want a Tabby cat", "i love Tabby cat", "do you have a Tabby cat"],
+         "responses": ["Tabby"],
+         "context": [""]
+        },
+        {"tag": "search_cat_Tuxedo",
+         "patterns": ["get me Tuxedo cat","i want a Tuxedo cat", "i love Tuxedo cat", "do you have a Tuxedo cat"],
+         "responses": ["Tuxedo"],
+         "context": [""]
+        }
+   ]
+}
