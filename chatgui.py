@@ -17,6 +17,7 @@ classes = pickle.load(open('classes.pkl','rb'))
 
 # connecting with MongoDB
 conn = 'mongodb+srv://TeamCatViz:RockingTeam#1@cluster0.ddihz.mongodb.net/petfinder_db?retryWrites=true&w=majority'
+#conn = 'mongodb://localhost:27017'
 client = pymongo.MongoClient(conn)
 
 def clean_up_sentence(sentence):
@@ -91,7 +92,7 @@ def getPets(prop,param):
     if(len(pet_list)>2):
         for pet in pet_list:
             url = pet["url"]
-            url_list.append(url)
+            url_list.append(f"<a href={url} target=\"_blank\">{url}</a>")
         return str(url_list)
     else:
         return f"Couldn't find any {param}"
@@ -111,7 +112,7 @@ def chatbot_response(msg):
 
     return res
 
-#Creating GUI with tkinter
+"""     #Creating GUI with tkinter
 import tkinter
 from tkinter import *
 
@@ -160,7 +161,5 @@ def main():
     EntryBox.place(x=6, y=401, height=90, width=265)
     SendButton.place(x=260, y=401, height=90)
 
-    base.mainloop()
+    base.mainloop() """
 
-if __name__ == "__main__":
-    main()
