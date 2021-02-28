@@ -1,3 +1,4 @@
+# This scripts creates and load GUI for chatbot. tkinter
 import nltk
 from nltk.stem import WordNetLemmatizer
 from numpy.core.fromnumeric import reshape
@@ -28,7 +29,6 @@ def clean_up_sentence(sentence):
     return sentence_words
 
 # return bag of words array: 0 or 1 for each word in the bag that exists in the sentence
-
 def bow(sentence, words, show_details=True):
     # tokenize the pattern
     sentence_words = clean_up_sentence(sentence)
@@ -43,6 +43,7 @@ def bow(sentence, words, show_details=True):
                     print ("found in bag: %s" % w)
     return(np.array(bag))
 
+# getting prediction tag from the model based on user input 
 def predict_class(sentence, model):
     # filter out predictions below a threshold
     p = bow(sentence, words, show_details=False)
@@ -56,6 +57,7 @@ def predict_class(sentence, model):
         return_list.append({"intent": classes[r[0]], "probability": str(r[1])})
     return return_list
 
+# getting response from based on the predictions
 def getResponse(ints, intents_json):
     tag = ints[0]['intent']
     list_of_intents = intents_json['intents']
@@ -65,6 +67,7 @@ def getResponse(ints, intents_json):
             break
     return result
 
+# fetching data fromm mongodb based on prediction and response
 def getPets(prop,param):
     # Retrieve the all images
     # Query Parameters
@@ -97,6 +100,7 @@ def getPets(prop,param):
     else:
         return f"Couldn't find any {param}"
 
+# primary functin to get and send response to the user in chat window
 def chatbot_response(msg):
     ints = predict_class(msg, model)
     res = getResponse(ints, intents)
@@ -112,6 +116,7 @@ def chatbot_response(msg):
 
     return res
 
+# tkinter GUI, commented as it is not supported in Heroku.
 """     #Creating GUI with tkinter
 import tkinter
 from tkinter import *
