@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
     <title>Pet Chat Bot</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
 
   <body>
@@ -37,7 +36,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     
     <script type="text/javascript">
-      var socket = io.connect('http://' + document.domain + ':' + location.port);
+      /* var socket = io.connect('http://' + document.domain + ':' + location.port); */
+      var socket = io.connect('ws://' + document.domain + ':' + location.port);
 
       socket.on( 'connect', function() {
         socket.emit( 'my event', {
