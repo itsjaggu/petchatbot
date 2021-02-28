@@ -7,8 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
     <title>Pet Chat Bot</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link href="static/css/application.css" rel="stylesheet" media="screen">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
 
   <body>
@@ -19,27 +18,51 @@
           <h1><b>Pet Search Chatbot</b></h1>
         </div>
       </div>
-     
-      <form id="input-form" class="form-inline">
-        <div class="form-group">
-          <input id="input-handle" type="text" class="form-control" placeholder="Enter handle" autofocus />
+      <h3 style='color: #ccc;font-size: 30px;'>No message yet..</h3>
+      <div class="message_holder"></div>
+
+      <!-- <div class="row justify-content-start">
+        <div class="col-8 visibleblock">
+            <p><a class="btn btn-primary btn-lg" href="/chat-bot/call-chat-bot" role="button">Start Pet Chat</a></p>
         </div>
-        <div class="form-group">
-          <input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />
-        </div>
-        <button class="btn btn-primary" type="submit">Send</button>
+      </div> -->
+      <form action="" method="POST">
+        <input type="text" class="username" placeholder="User Name"/>
+        <input type="text" class="message" placeholder="Messages"/>
+        <input type="submit"/>
       </form>
-      <div class="page-header">
-        <h1>Chat Log</h1>
-      </div>
-      <div id="chat-text">
-      </div>
     </div>
     
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script type="text/javascript" src="static/js/reconnecting-websocket.min.js"></script>
-    <script type="text/javascript" src="static/js/application.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+    
+    <script type="text/javascript">
+      var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+      socket.on( 'connect', function() {
+        socket.emit( 'my event', {
+          data: 'User Connected'
+        } )
+        var form = $( 'form' ).on( 'submit', function( e ) {
+          e.preventDefault()
+          let user_name = $( 'input.username' ).val()
+          let user_input = $( 'input.message' ).val()
+          socket.emit( 'my event', {
+            user_name : user_name,
+            message : user_input
+          } )
+          $( 'input.message' ).val( '' ).focus()
+        } )
+      } )
+      socket.on( 'my response', function( msg ) {
+        console.log( msg )
+        if( typeof msg.user_name !== 'undefined' ) {
+          $( 'h3' ).remove()
+          $( 'div.message_holder' ).append( '<div><b style="color: #000">'+msg.user_name+'</b> '+msg.message+'</div>' )
+        }
+      })
+    </script>
 
   </body>
-    
+
 </html>

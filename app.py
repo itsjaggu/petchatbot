@@ -1,80 +1,35 @@
-import os
-import logging
-import redis
-import gevent
-from flask import Flask, render_template
-from flask_sockets import Sockets
-
-REDIS_URL = os.environ['REDIS_URL']
-REDIS_CHAN = 'chat'
+from flask import Flask, render_template, redirect, url_for
+from flask_socketio import SocketIO
+import json
+import chatgui
 
 app = Flask(__name__)
-app.debug = 'DEBUG' in os.environ
+#app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#'
+socketio = SocketIO(app)
 
-sockets = Sockets(app)
-redis = redis.from_url(REDIS_URL)
+@app.route("/")
+def sessions():
+    return render_template('chatbot.html')
 
-class ChatBackend(object):
-    """Interface for registering and updating WebSocket clients."""
+def messageReceived(methods=['GET', 'POST']):
+    print('message was received!!!')
 
-    def __init__(self):
-        self.clients = list()
-        self.pubsub = redis.pubsub()
-        self.pubsub.subscribe(REDIS_CHAN)
+""" @app.route('/chat-bot')
+def botgui():
+    chatgui.main()
+    return redirect("/chat-bot", code=302) """
 
-    def __iter_data(self):
-        for message in self.pubsub.listen():
-            data = message.get('data')
-            if message['type'] == 'message':
-                app.logger.info(u'Sending message: {}'.format(data))
-                yield data
+@socketio.on('my event')
+def handle_my_custom_event(msg, methods=['GET', 'POST']):
+    print('received my event: ' + str(msg))
+    socketio.emit('my response', msg, callback=messageReceived)
+    
+    msg_str = msg["message"]
+    res = chatgui.chatbot_response(msg_str)
+    res_json = {'user_name': 'BOT', 'message': res}
+    
+    socketio.emit('my response', res_json, callback=messageReceived)
 
-    def register(self, client):
-        """Register a WebSocket connection for Redis updates."""
-        self.clients.append(client)
-
-    def send(self, client, data):
-        """Send given data to the registered client.
-        Automatically discards invalid connections."""
-        try:
-            client.send(data)
-        except Exception:
-            self.clients.remove(client)
-
-    def run(self):
-        """Listens for new messages in Redis, and sends them to clients."""
-        for data in self.__iter_data():
-            for client in self.clients:
-                gevent.spawn(self.send, client, data)
-
-    def start(self):
-        """Maintains Redis subscription in the background."""
-        gevent.spawn(self.run)
-
-chats = ChatBackend()
-chats.start()
-
-@app.route('/')
-def hello():
-    return render_template('index.html')
-
-@sockets.route('/submit')
-def inbox(ws):
-    """Receives incoming chat messages, inserts them into Redis."""
-    while not ws.closed:
-        # Sleep to prevent *constant* context-switches.
-        gevent.sleep(0.1)
-        message = ws.receive()
-
-        if message:
-            app.logger.info(u'Inserting message: {}'.format(message))
-            redis.publish(REDIS_CHAN, message)
-
-@sockets.route('/receive')
-def outbox(ws):
-    """Sends outgoing chat messages, via `ChatBackend`."""
-    chats.register(ws)
-
-    while not ws.closed:
-        # Context switch while `ChatBackend.start` is running in the background.
-        gevent.sleep(0.1)
+if __name__ == "__main__":
+    #app.run(debug=True)
+    socketio.run(app, debug=True)
